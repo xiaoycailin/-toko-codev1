@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + TS</title>
+
+  <script src="./assets/utility.js"></script>
+  <script src="https://codenusantara.fun/test/operator-parser.dev2.js"></script>
+</head>
+
+<body>
+  
+  <ion-content class="ion-padding">
+    <ion-input class="ion-input" placeholder="Masukan nomor hp" id="phone"></ion-input>
+    <ion-button mode="ios" onclick="sheet.open()">Open Sheet</ion-button>
+
+    <ion-button
+      onclick="modal.confirm('Konfirmasi', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem, commodi?').backdropDismis(false).iosMode(false)">Open
+      Confirm</ion-button>
+    <ion-button
+      onclick="modal.alert('Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem, commodi?').backdropDismis(false).iosMode(true)">Open
+      Alert</ion-button>
+    <ion-button onclick="modal.create('<div class=ion-padding>ion-custom-dialog</div>').backdropDismis(true)">Open
+      Modal</ion-button>
+
+
+    <ion-button onclick="Toast.create({message: 'Hello World', position: 'middle'}).buttons([
+        {
+            text: 'Cancel',
+            handler: () => {
+                console.log('Cancel clicked');
+            }
+        }
+    ])">Open Toast</ion-button>
+
+    <!-- <ion-button expand="block" onclick="toast.isOpen = true">Open</ion-button>
+    <ion-toast duration="5000" message="This toast will close in 5 seconds"></ion-toast> -->
+  </ion-content>
+
+  <script name="operator-parser">
+    const parser = new OperatorParser({
+      telkomsel: {
+        icon: 'https://www.icon.com/icontelkomsel-terbaru.png',
+      },
+      //...operator lainnya yang ingin di config ulang
+    })
+    parser.change.keyup.input.paste.formatInput.listen('#phone', (value, err) => {
+      if (value) {
+        console.log('Nomor Telpon:', value.number)
+        console.log('Operator:', value.name)
+        console.log('Icon:', value.icon)
+      } else {
+        console.log(err.message)
+      }
+    })
+
+  </script>
+  <script name="sheet">
+    let sheet = new SwipeSheet({
+      breakpoints: [0, 0.5],
+      initialBreakpoint: 0.5,
+      name: 'sheet-1',
+      // backdropDismiss: true,
+      // isOpen: true,
+      // borderRadius: {
+      //     topLeft: '10px',
+      //     topRight: '10px',
+      // },
+      followNavigation: true,
+    })
+    sheet.create(`
+        
+        <button onclick="sheet.close()">Tutup Sheet</button>
+        
+        <ion-button
+            onclick="modal.confirm('Konfirmasi', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem, commodi?').backdropDismis(false)">Open
+            Confirm</ion-button>
+        <ion-button
+            onclick="modal.alert('Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem, commodi?')">Open
+            Alert</ion-button>
+        <ion-button onclick="modal.create('<div class=ion-padding>ion-custom-dialog</div>')">Open Modal</ion-button>
+
+
+        <ion-button onclick="Toast.create({message: 'Hello World', position: 'middle', color: 'success'}).buttons([
+            {
+                text: 'Cancel',
+                handler: () => {
+                    console.log('Cancel clicked');
+                }
+            }
+        ])">Open Toast</ion-button>
+    `)
+  </script>
+
+  <script>
+    const modal = new Modal('modal-custom-dialog')
+
+    // console.log(ionButton())
+  </script>
+</body>
+
+</html>
